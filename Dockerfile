@@ -1,5 +1,5 @@
 # # Descarga la imagen de ubuntu
-# FROM ubuntu:20.04
+#  FROM ubuntu:20.04
 
 # # Instalar PHP
 # RUN apt-get update && apt-get install -y \
@@ -23,16 +23,14 @@
 # EXPOSE 8080
 
 # #Ejecutar la aplicacion Web
-# CMD ["apachectl", "-D", "FOREGROUND"]
+#CMD ["apachectl", "-D", "FOREGROUND"]
 
 
 FROM ubuntu:20.04
 
-ARG DEBIAN_FRONTEND=noninteractive
-
 RUN apt-get update && apt-get upgrade -y
-
-RUN apt-get install -y apache2 php libapache2-mod-php
+ 
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y php && apt-get clean
 
 #Copiar la carpeta webapp
 COPY ./webapp /home/webapp
@@ -44,4 +42,4 @@ WORKDIR /home/webapp
 EXPOSE 8080
 
 #Ejecutar la aplicacion Web
-CMD ["apachectl", "-D", "FOREGROUND"]
+CMD ["php", "-S","0.0.0.0:8080", "-t", "/home/webapp"]
